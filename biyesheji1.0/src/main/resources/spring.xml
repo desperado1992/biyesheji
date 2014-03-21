@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+">
+    
+	<!-- 引入属性文件 -->
+	  <aop:aspectj-autoproxy/>  
+	<!--  <context:property-placeholder location="classpath:config.properties,classpath:email.properties,classpath:memcached.properties" /> -->
+
+       <bean id="environmentVariablesConfiguration"  
+        class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">  
+        <property name="algorithm" value="PBEWithMD5AndDES" />  
+        <property name="password" value="zhuyuping" />  
+    </bean>  
+    <bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">  
+        <property name="config" ref="environmentVariablesConfiguration" />  
+    </bean>  
+    <bean id="propertyConfigurer"  
+        class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">  
+        <constructor-arg ref="configurationEncryptor" />  
+        <property name="locations">  
+            <list>  
+                <value>classpath:config.properties</value>
+                <value>classpath:email.properties</value>
+               
+            </list>  
+        </property>  
+        <property name="fileEncoding" value="utf-8" />  
+    </bean>   
+ 
+ 
+    
+    
+       
+    <context:annotation-config/>
+	<!-- 自动扫描dao和service包(自动注入) -->
+	<context:component-scan base-package="com.zyp">
+	  <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+	</context:component-scan>
+	
+	
+ <import resource="classpath:spring-email.xml"/>
+ 
+ <bean id="loggerRecorderInterceptor" class="com.zyp.spring.aop.LoggingInterceptor"></bean>
+ 
+<!--   <bean id="loggerRecorder" class="org.springframework.aop.framework.ProxyFactoryBean"> -->
+
+<!--    <property name="target" ref="loggerServiceImpl"></property> -->
+<!--   <property name="interceptorNames"> -->
+<!--    <list> -->
+<!--     <value>loggerRecorderInterceptor</value> -->
+<!--    </list> -->
+<!--   </property> -->
+<!--  </bean> -->
+
+<!-- aop log cfg 自动代理 -->  
+<!--     <bean name="logBefore" class="aoplog.LogBeforeAdvice"></bean>   -->
+<!--     <bean name="logAfter" class="aoplog.LogAfterAdvice"></bean>   -->
+<!--     <bean name="loggerAutoProxy"   -->
+<!-- class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">   -->
+<!--         <property name="beanNames">   -->
+<!--             <list>   -->
+<!--                 <value>*Action</value>   -->
+<!--                 <value>*Logout</value>   -->
+<!--             </list>   -->
+<!--         </property>   -->
+<!--         <property name="interceptorNames">   -->
+<!--             <list>   -->
+<!--                 <value>logBefore</value>   -->
+<!--                 <value>logAfter</value>   -->
+<!--             </list>   -->
+<!--         </property>   -->
+<!--     </bean>   -->
+
+    
+   
+
+     <aop:config> 
+        <!-- 自动日志过滤切面 -->
+        <aop:pointcut id="logOperation" expression="execution(* com.zyp.service..*Impl.*(..))" />
+        <!-- 自动日志过滤配置   -->
+        
+        <aop:advisor pointcut-ref="logOperation" advice-ref="loggerRecorderInterceptor"/>
+
+    </aop:config>    
+ <!-- 
+ <bean id="proxyFactory" abstract="true" class="org.springframework.aop.framework.ProxyFactoryBean">  
+
+  <property name="target" ref="surroundAdvice"/>
+  <property name="interceptorNames">
+    <list>
+      <value>*Action</value>
+    </list>
+  </property>
+    
+  
+</bean>-->
+  
+<!-- <bean id="cacheManager" class="xxx.MemcachedCacheManager">   -->
+<!--         <property name="memcachedClient" ref="memcachedClient" />   -->
+<!--         <property name="configMap">   -->
+<!--             <map>   -->
+                <!-- key：@Cacheable、@CachePut、@CacheEvict等的name属性。value：缓存过期时间(单位：秒)，默认值：0 -->  
+<!--                 <entry key="typeList" value="3600" />   -->
+<!--             </map>   -->
+<!--         </property>   -->
+<!--     </bean>   -->
+<!-- <cache:annotation-driven cache-manager="cacheManager"/>   -->
+
+
+
+
+</beans>

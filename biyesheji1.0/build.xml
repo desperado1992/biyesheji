@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="website091">
+<property name="src.dir" value="src"></property>
+	<property name="web.dir" location="WebRoot"></property>
+	<property name="web.WEB-INF.dir" location="${web.dir}/WEB-INF"></property>
+     <property name="test.src.dir" value="test"></property>
+    <property name="build.dir" value="build"></property>
+	<property name="build.jar.dir" location="${build.dir}/dist"></property>
+	<property environment="env"></property>
+	<property name="sql.dir" location="${test.src.dir}/sql"></property>
+	<property name="build.classes" value="${build.dir}/classes"></property>
+	<property name="build.test.dir" value="${build.dir}/test"></property>
+	<property name="build.test.classes" value="${build.test.dir}/classes"></property>
+	<property name="build.test.report" value="${build.test.dir}/report"></property>
+	<property name="lib.src" value="${web.WEB-INF.dir}/lib"></property>
+	<property name="build.doc" value="${build.dir}/doc/api"></property>
+	<property name="version" value="zyp1.0"></property>
+	<property name="build.zip" value="${build.dir}/zip"></property>
+	<property name="build.jar.dir" location="${build.dir}/dist"></property>
+	<property name="zip.name" value="website091_${version}.zip"></property>
+	<property name="testclass.name" value="**.*Test"></property>
+	<property name="project.name" value="website091_${version}"></property>
+	<property name="execute.class" value="com.zyp.oa.install.Installer"></property>
+	<property file="build.properties"></property>
+	<path id="compile-path">
+			<fileset dir="${lib.src}" includes="**/*.jar"></fileset>
+			<fileset dir="${env.CATALINA_HOME}/lib" includes="**/*.jar"></fileset>
+		</path>
+	<path id="complie-test">
+	<path refid="compile-path"></path>
+	<pathelement location="${build.classes}"/>
+	</path>
+	<path id="run-test">
+    <path refid="compile-path"></path>
+		<pathelement location="${build.test.classes}"/>
+	</path>
+	<target name="create">
+		<echo>清理工作</echo>
+	<delete dir="${build.dir}"></delete>
+
+
+	<mkdir dir="${build.dir}"/>
+	<mkdir dir="${build.classes}"/>
+		<mkdir dir="${build.test.dir}"/>
+		<mkdir dir="${build.test.classes}"/>
+	<mkdir dir="${build.test.report}"/>
+		<mkdir dir="${build.doc}"/>
+	</target>
+	<target name="complie" depends="create">
+		<echo>编译文件</echo>
+	<javac destdir="${build.classes}" srcdir="${src.dir}" excludes="**/*Servlet.*" classpathref="compile-path" includeantruntime="false"></javac>
+		<copy todir="${build.classes}">
+			<fileset dir="${src.dir}" excludes="**/*.java"></fileset>
+		</copy>
+
+	</target>
+	
+	
+	<target name="complie-test" depends="complie">
+			<echo>编译test文件</echo>
+		
+		<javac destdir="${build.test.classes}" srcdir="${test.src.dir}" classpathref="complie-test" includeantruntime="false"></javac>
+		</target>
+	
+	<target name="run-test">
+		  <junit printsummary="true" haltonfailure="no" showoutput="true">  
+     <classpath refid="run-test"></classpath>
+		
+		<formatter type="xml" usefile="true"/>
+	<batchtest todir="${build.test.report}" fork="yes">
+	<fileset dir="${build.test.classes}" includes="${testclass.name}"></fileset>
+	</batchtest>
+	</junit>
+	<junitreport todir="${build.test.report}">
+		<fileset dir="${build.test.report}" includes="**.xml"></fileset>
+		<report format="frames" todir="${build.test.report}/html"/>
+	</junitreport>
+	</target>
+	<target name="javadoc" depends="complie-test">
+	<javadoc sourcepath="${src.dir}" destdir="${build.doc}" windowtitle="${project.name}" use="true" private="true" packagenames="*.*" charset="utf-8" docencoding="utf-8" encoding="utf-8">
+		<classpath refid="compile-path"></classpath>
+	</javadoc>
+	</target>
+	
+	<target name="zip" depends="javadoc">
+	<zip destfile="${build.zip}/${zip.name}" duplicate="preserve">
+	    <zipfileset dir="${src.dir}" includes="**/*.*" prefix="${project.name}/src"></zipfileset>
+		<zipfileset dir="${build.doc}" includes="**/*.*" prefix="${project.name}/doc"></zipfileset>
+	</zip>
+	</target>
+	<target name="war" depends="zip">
+		<war destfile="${build.jar.dir}/${web.name}.war">
+			<fileset dir="${web.dir}" includes="**/*"></fileset>
+		</war>
+	</target>
+	<target name="deploy" depends="war">
+			<copy todir="${env.CATALINA_HOME}/webapps" file="${build.jar.dir}/${web.name}.war" overwrite="true">
+			</copy>
+		</target>
+	<target name="tar" depends="deploy">
+	<jar destfile="${build.jar.dir}/${project.name}.jar" basedir="${build.classes}" >
+	<manifest>
+		<attribute name="Main-Class" value="${execute.class}"/>
+		<attribute name="By-auther" value="zyp"/>
+	</manifest>
+		</jar>
+	</target>
+	<target name="deleteDeploy">
+	<delete>
+	<fileset dir="${env.CATALINA_HOME}/webapps">
+	    <include name="${build.jar.dir}/${web.name}.war"/>
+	    
+	</fileset>
+</delete>
+
+	</target>
+	<target name="ftp">
+	<ftp userid="root" password="zyp1992" server="192.168.10.3" action="put" remotedir="/root">
+	<fileset dir="build.zip" includes="*.zip"></fileset>
+	</ftp>
+	</target>
+</project>

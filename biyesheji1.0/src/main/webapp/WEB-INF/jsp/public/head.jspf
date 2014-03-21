@@ -1,0 +1,49 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
+   
+
+			<ul class="topnav hidden-phone" >
+						<li>
+							<div class="btn-group">
+								<a href="#" class="btn-inverse dropdown-toggle" data-toggle="dropdown">
+								<img src="${pageContext.request.contextPath}/resources/admin/theme/images/lang/en.png" align="absmiddle" />
+								<span class="caret"></span></a>
+						    	<ul class="dropdown-menu pull-right">
+						      		<li class="active"><a href="?page=login&lang=zh" title="English"><img src="${pageContext.request.contextPath}/resources/admin/theme/images/lang/en.png" align="absmiddle" />简体中文</a></li>
+						      		<li><a href="?page=login&lang=tw" title="Romanian"><img src="${pageContext.request.contextPath}/resources/admin/theme/images/lang/ro.png" align="absmiddle" /> 繁体中文</a></li>
+						      		<li><a href="?page=login&lang=en" title="Italian"><img src="${pageContext.request.contextPath}/resources/admin/theme/images/lang/it.png" align="absmiddle" /> English</a></li>
+
+						    	</ul>
+						  	</div>
+						</li>
+												<li>
+							<a href="#themer" data-toggle="collapse" class="logout glyphicons eyedropper"><i></i><span>主 题</span></a>
+							<div id="themer" class="collapse">
+								<div class="wrapper">
+									<h4>自定义主题 <span>颜色 &amp; 布局 选项</span></h4>
+									<ul>
+										<li>风格: <select id="themer-theme" class="pull-right"></select><div class="clearfix"></div></li>
+										<li>主体 颜色: <input type="minicolors" data-default="#ffffff" data-slider="hue" data-textfield="false" data-position="left" id="themer-primary-cp" /><div class="clearfix"></div></li>
+										<li class="advanced">顶部 颜色: <input type="minicolors" data-slider="hue" data-default="#ffffff" data-textfield="false" data-position="left" id="themer-header-cp" /><div class="clearfix"></div></li>
+										<li class="advanced">菜单 颜色: <input type="minicolors" data-slider="hue" data-default="#ffffff" data-textfield="false" data-position="left" id="themer-menu-cp" /><div class="clearfix"></div></li>
+										<li>
+											<span class="link" id="themer-custom-reset">还原更改</span>
+											<span class="pull-right"><label>高级选项 <input type="checkbox" value="1" id="themer-advanced-toggle" /></label></span>
+										</li>
+									</ul>
+																		<hr class="separator" />
+									<ul>
+										<li>菜单   位置 : <select id="themer-menu-position" class="pull-right"></select><div class="clearfix"></div></li>
+										<li>菜单 大小: <select id="themer-menu-size" class="pull-right"></select><div class="clearfix"></div></li>
+									</ul>
+																		<div id="themer-getcode" class="hide">
+										<hr class="separator" />
+										<button class="btn btn-primary btn-small pull-right btn-icon glyphicons download" id="themer-getcode-less"><i></i>获取当前样色</button>
+										<button class="btn btn-inverse btn-small pull-right btn-icon glyphicons download" id="themer-getcode-css"><i></i>获取所有样色</button>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+																	</ul>
+																	

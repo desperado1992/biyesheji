@@ -1,0 +1,47 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<link href="${pageContext.request.contextPath}/resources/admin/css/tables.css" rel="stylesheet" />
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/admin/js/jExpand.js"></script>
+   
+ 
+   <table id="report" class="table table-bordered table-condensed table-striped table-primary table-vertical-center checkboxs js-table-sortable">
+        <tr>
+            <th>用户名</th>
+            <th>会员等级</th>
+            <th>用户邮箱</th>
+            <th>创建时间</th>
+            <th>ip地址</th>
+             <th>状态</th>
+            <th>操作</th>
+            <th>扩展</th>
+        </tr>
+        <s:iterator value="users">
+        <tr>
+            <td>${logName}</td>
+            <td>${name}</td>
+            <td>${email}</td>
+            <td>${regDate}</td>
+             <td>${ipaddress}</td>
+              <td><s:if test="status==0">正常</s:if><s:else>禁用</s:else></td>
+            <td><a href="${pageContext.request.contextPath}/main/memberAction!delete.action?id=${id}" onclick="return window.confirm('您确定要删除当前选中会员吗？')" >删除</a>  |<a href="${pageContext.request.contextPath}/main/memberAction!editUI.action?id=${id}"> 编辑</a></td>
+            <td><div class="arrow"></div></td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <img src="${pageContext.request.contextPath}/${face}" alt="头像" />
+                <h4>额外详细信息</h4>
+                <ul>
+                    <li><a href="">最后一次登录时间--${lastLogDate}</a></li>
+                  
+                    
+                    
+               
+                     <li><a href=""><s:property value="addresses.$.name"/></a><a href="${pageContext.request.contextPath}/main/memberAction!AddAddress.action?memberId=${id}">添加地址</a></li>
+                    
+                    <li><a href="">账户余额--${money}</a></li>
+                    <li><a href="">用户文章管理</a></li>
+                 </ul>   
+            </td>
+        </tr>
+      </s:iterator>
+    </table>   
+

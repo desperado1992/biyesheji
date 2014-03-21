@@ -1,0 +1,63 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
+<div class="row-fluid pages">
+	<ul>
+				<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>栏目管理</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/channelAction!addUI.action" class="glyphicons edit open" id="navigationAdd"><i></i> 添加</a> | <a href="${pageContext.request.contextPath}/main/channelAction!navigation.action" class="glyphicons remove_2 open" id="navigationList"><i></i> 查看</a>
+			</span>
+		</li>
+				<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>文章管理</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/channelArticleAction!addUI.action"  class="glyphicons edit open"><i></i> 添加</a> | <a href="${pageContext.request.contextPath}/main/channelArticleAction!list.action" class="glyphicons remove_2 open"><i></i> 查看</a>
+			</span>
+		</li>
+				<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>文章分类管理</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/carticleCategoryAction!addUI.action" class="glyphicons edit open"  ><i></i> 添加</a> | <a href="${pageContext.request.contextPath}/main/carticleCategoryAction!list.action" class="glyphicons remove_2 open"><i></i> 查看</a>
+			</span>
+		</li>
+				<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>广告位</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/advisePositionAction!addUI.action" class="glyphicons edit open"><i></i> 添加</a> | <a href="${pageContext.request.contextPath}/main/advisePositionAction!list.action" class="glyphicons remove_2 open"><i></i> 查看</a>
+			</span>
+		</li>
+			<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>广告管理</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/adviseAction!addUI.action" class="glyphicons edit open"><i></i> 添加</a> | <a href="${pageContext.request.contextPath}/main/adviseAction!list.action" class="glyphicons remove_2 open"><i></i> 查看</a>
+			</span>
+		</li>
+				<li class="span3 glyphicons notes">
+			<i></i>
+			<strong>即时聊天</strong>
+			<span class="actions">
+				<a href="${pageContext.request.contextPath}/main/chatAction!chat.action" class="glyphicons edit open" id="chat"><i></i> 版本1</a> | <a href="${pageContext.request.contextPath}/main/chatAction!chatrtc.action" class="glyphicons remove_2 open"><i></i> 版本2</a>
+			</span>
+		</li>
+			
+			
+			</ul>
+</div>
+<br />
+<div class="PopupLayer" style="overflow: scroll;"> 
+
+  
+  <div class="spanIframe" style="overflow: scroll;"><iframe id="iFrame1" width="100%"  name="iFrame1"  onload="this.height=iFrame1.document.body.scrollHeight" frameborder="0"  src="" style="overflow: scroll;"></iframe></div>
+  <div class="separator"></div>
+  
+  	<div class="btn_content">
+ 
+  <center><button  id="close">折叠</button></center>
+</div>
+  
+  </div>

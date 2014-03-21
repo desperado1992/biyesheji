@@ -1,0 +1,11 @@
+<div class="pagination pagination-small pull-right" style="margin: 0;">
+			<ul>
+				<li class="disabled"><a href="#">&laquo;</a></li>
+				<li class="active"><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">&raquo;</a></li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+	</div>

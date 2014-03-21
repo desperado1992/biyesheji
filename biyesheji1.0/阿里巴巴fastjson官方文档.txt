@@ -1,0 +1,319 @@
+Xmemcache spring配置
+<!--  
+  <bean name="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">
+        <!-- XMemcachedClientBuilder have two arguments.First is server list,and   
+            second is weights array. -->  
+        <constructor-arg>  
+            <list>  
+                <bean class="java.net.InetSocketAddress">  
+                    <constructor-arg>  
+                        <value>${memcached.server1.host}</value>  
+                    </constructor-arg>  
+                    <constructor-arg>  
+                        <value>${memcached.server1.port}</value>  
+                    </constructor-arg>  
+                </bean>  
+               <!--   
+               <bean class="java.net.InetSocketAddress">  
+                    <constructor-arg>  
+                        <value>${memcached.server2.host}</value>  
+                    </constructor-arg>  
+                    <constructor-arg>  
+                        <value>${memcached.server2.port}</value>  
+                    </constructor-arg>  
+                </bean>  
+                <bean class="java.net.InetSocketAddress">  
+                    <constructor-arg>  
+                        <value>${memcached.server3.host}</value>  
+                    </constructor-arg>  
+                    <constructor-arg>  
+                        <value>${memcached.server3.port}</value>  
+                    </constructor-arg>  
+                </bean>
+                -->
+<!--                 <bean class="java.net.InetSocketAddress">   -->
+<!--                     <constructor-arg>   -->
+<!--                         <value>${memcached.server4.host}</value>   -->
+<!--                     </constructor-arg>   -->
+<!--                     <constructor-arg>   -->
+<!--                         <value>${memcached.server4.port}</value>   -->
+<!--                     </constructor-arg>   -->
+<!--                 </bean>   -->
+            </list>  
+        </constructor-arg>  
+<!--         <constructor-arg>   -->
+<!--             <list>   -->
+<!--                 <value>${memcached.server1.weight}</value>   -->
+<!--                 <value>${memcached.server2.weight}</value>   -->
+<!--                 <value>${memcached.server3.weight}</value>   -->
+<!--                 <value>${memcached.server4.weight}</value>   -->
+<!--             </list>   -->
+<!--         </constructor-arg>   -->
+            <property name="connectionPoolSize" value="${memcached.connectionPoolSize}"></property>
+                <property name="commandFactory">
+                        <bean class="net.rubyeye.xmemcached.command.TextCommandFactory"></bean>
+                </property>
+                <property name="sessionLocator">
+                        <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"></bean>
+                </property>
+                <property name="transcoder">
+                        <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+                </property>
+        
+    </bean>  
+    <!-- Use factory bean to build memcached client -->  
+    <bean  
+        id="memcachedClient"  
+        factory-bean="memcachedClientBuilder"  
+        factory-method="build"  
+        destroy-method="shutdown" />  
+
+    -->
+
+【
+
+
+转】Fastjson介绍
+如何混淆JAVA代码以及如何混淆压缩JS和CSS
+1、在每一个项目的pom.xml文件中找到maven-antrun-plugin插件，注释或是取消注释插件就能控制是否执行对Jar的混淆。
+
+2、在每一个项目的pom.xml文件中找到yuicompressor-maven-plugin插件，注释或是取消注释插件就能控制是否执行对JS和CSS的混淆压缩。
+
+3、当然经过1和2的修改之后，要按照依赖顺序重新运行每一个项目
+博客分类： Web前端Java零碎知识
+jsonjavaFastjson 
+
+转载自：http://code.alibabatech.com/wiki/pages/viewpage.action?pageId=2424946 
+
+简介 
+
+Fastjson是一个Java语言编写的高性能功能完善的JSON库。 
+高性能 
+
+fastjson采用独创的算法，将parse的速度提升到极致，超过所有json库，包括曾经号称最快的jackson。并且还超越了google的二进制协议protocol buf。 
+支持标准 
+
+    Fastjson完全支持http://json.org的标准，也是官方网站收录的参考实现之一。 
+
+功能强大 
+
+    支持各种JDK类型。包括基本类型、JavaBean、Collection、Map、Enum、泛型等。 
+    支持循环引用 
+
+无依赖 
+
+    不需要例外额外的jar，能够直接跑在JDK上。 
+
+支持范围广 
+
+    支持JDK 5、JDK 6、Android、阿里云手机等环境。 
+
+开源 
+
+    Apache License 2.0 
+    代码托管在github.org上，项目地址是 https://github.com/AlibabaTech/fastjson 
+
+测试充分 
+
+    fastjson有超过1500个testcase，每次构建都会跑一遍，丰富的测试场景保证了功能稳定。 
+
+获得fastjson 
+下载 
+
+http://code.alibabatech.com/mvn/releases/com/alibaba/fastjson/ 
+
+maven 
+
+如果你使用了Maven，maven repository配置如下： 
+<repository> 
+    <id>opensesame</id> 
+    <name>Alibaba OpenSource Repsoitory</name> 
+    <url>http://code.alibabatech.com/mvn/releases/</url> 
+    <snapshots> 
+        <enabled>false</enabled> 
+    </snapshots> 
+</repository> 
+
+pom.xml文件中加入依赖依赖： 
+<dependency> 
+    <groupId>com.alibaba</groupId> 
+    <artifactId>fastjson</artifactId> 
+    <version>1.1.14</version> 
+</dependency> 
+序列化 
+
+一个JSON库涉及的最基本功能就是序列化和反序列化。Fastjson支持java bean的直接序列化。你可以使用com.alibaba.fastjson.JSON这个类进行序列化和反序列化。 
+基本序列化 
+
+序列化就是把JavaBean对象转化成JSON格式的文本。 
+Object o = ...; 
+String text = JSON.toJSONString(o); 
+
+在这个例子中，调用JSON.toJSONString方法，把对象o转化为JSON格式的文本。 
+使用单引号 
+
+标准的JSON是使用双引号的，javascript支持使用单引号格式的json文本，fastjson也支持这个特性，打开SerializerFeature.UseSingleQuotes这个特性就可以了了，例如： 
+Object o = ...; 
+String text = JSON.toJSONString(o, SerializerFeature.UseSingleQuotes); 
+
+fastjson序列化时可以选择的SerializerFeature有十几个，你可以按照自己的需要去选择使用。 
+日期格式化 
+
+fastjson直接支持日期类型数据的格式化，包括java.util.Date、java.sql.Date、java.sql.Timestamp、java.sql.Time。 
+
+缺省情况下，fastjson将Date类型序列化为long，这个使得序列化和反序列化的过程不会导致时区问题。如： 
+例如： 
+long millis = 1324138987429L; 
+Date date = new Date(millis);       
+System.out.println(JSON.toJSONString(date)); 
+
+输出的结果是 
+1324138987429 
+
+fastjson还提供了基于格式化输出的SerializerFeature，例如： 
+JSON.toJSONString(date, SerializerFeature.WriteDateUseDateFormat); 
+
+输出的结果为： 
+"2011-12-18 00:23:07" 
+
+你可以指定输出日期的格式，比如修改为输出毫秒： 
+JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS"); 
+
+输出的结果为: 
+"2011-12-18 00:23:07.429" 
+使用WriteClassName特性 
+
+fastjson支持序列化时写入类型信息，从而使得反序列化时不至于类型信息丢失。例如： 
+Color color = Color.RED; 
+String text = JSON.toJSONString(color, SerializerFeature.WriteClassName); 
+System.out.println(text); 
+
+输出结果： 
+{"@type":"java.awt.Color","r":255,"g":0,"b":0,"alpha":255} 
+
+由于序列化带了类型信息，使得反序列化时能够自动进行类型识别，例如： 
+String text = ...; // {"@type":"java.awt.Color","r":255,"g":0,"b":0,"alpha":255} 
+Color color = (Color) JSON.parse(text); 
+浏览器和设备兼容 
+
+fastjson缺省的序列化内容，是对序列化结果紧凑做了优化配置，使得序列化之后长度更小，但是这种优化配置是对一些浏览器和设备不兼容的。比如说在iphone上兼容emoji（绘文字）。 
+JSON.toJSONString(o, SerializerFeature.BrowserCompatible); 
+循环引用 
+
+很多场景中，我们需要序列化的对象中存在循环引用，在许多的json库中，这会导致stackoverflow。在功能强大的fastjson中，你不需要担心这个问题。例如： 
+A a = new A(); 
+B b = new B(a); 
+a.setB(b); 
+
+String text = JSON.toJSONString(a); // {"b":{"a":{"$ref":".."}}} 
+A a1 = JSON.parseObject(text, A.class); 
+Assert.assertTrue(a1 == a1.getB().getA()); 
+
+引用是通过"$ref"来表示的 
+引用 描述 
+"$ref":".." 上一级 
+"$ref":"@" 当前对象，也就是自引用 
+"$ref":"$" 根对象 
+"$ref":"$.children.0" 基于路径的引用，相当于 root.getChildren().get(0) 
+使用@JSONField Annotation 
+
+在某些场景，你可能需要定制序列化输出，比如说，希望序列化采用之后采用"ID"，而不是"id"，你可以使用@JSONField这个Annotation。 
+public class User { 
+    @JSONField(name="ID") 
+    public int getId() { ... } 
+} 
+
+User user = ...; 
+JSON.toJSONString(user); // {"ID":234} 
+从json-lib中升级 
+
+如果你已经使用了json-lib，并且痛恨他蜗牛般的速度和罗嗦的API，建议你升级为fastjson，fastjson可以完全兼容json-lib的序列化格式。 
+import com.alibaba.fastjson.JSON; 
+import com.alibaba.fastjson.serializer.JSONLibDataFormatSerializer; 
+import com.alibaba.fastjson.serializer.JSONSerializerMap; 
+import com.alibaba.fastjson.serializer.SerializerFeature; 
+  
+private static final SerializeConfig   config; 
+static { 
+    config = new SerializeConfig(); 
+    config.put(java.util.Date.class, new JSONLibDataFormatSerializer()); // 使用和json-lib兼容的日期输出格式 
+    config.put(java.sql.Date.class, new JSONLibDataFormatSerializer()); // 使用和json-lib兼容的日期输出格式 
+} 
+  
+private static final SerializerFeature[] features = { SerializerFeature.WriteMapNullValue, // 输出空置字段 
+        SerializerFeature.WriteNullListAsEmpty, // list字段如果为null，输出为[]，而不是null
+        SerializerFeature.WriteNullNumberAsZero, // 数值字段如果为null，输出为0，而不是null 
+        SerializerFeature.WriteNullBooleanAsFalse, // Boolean字段如果为null，输出为false，而不是null 
+        SerializerFeature.WriteNullStringAsEmpty // 字符类型字段如果为null，输出为""，而不是null 
+                                                  }; 
+  
+// 序列化为和JSON-LIB兼容的字符串 
+public static String toCompatibleJSONString(Object object) { 
+    return JSON.toJSONString(object, config, features); 
+} 
+
+通过上面代码中的toCompatibleJSONString方法，你就可以实现完全兼容json-lib了。 
+反序列化 
+
+反序列化就是把JSON格式的文本转化为Java Bean对象。 
+指定Class信息反序列化 
+
+通过指定类型信息，可以很方便的将"JSON文本"反序列化为"Java Bean"对象，例如： 
+String text = ...; // {"r":255,"g":0,"b":0,"alpha":255} 
+Color color = JSON.parseObject(text, Color.class); 
+类型集合的反序列化 
+
+这个接口类似于parseObject 
+String text = ...; // [{ ... }, { ... }] 
+List<User> users = JSON.parseArray(text, User.class); 
+泛型的反序列化 
+
+如果你需要返回一个带泛型的对象，例如List<User>、Map<String, User>，你可以使用TypeReference来传入类型信息。 
+String text = ...; // {"name":{"name":"ljw",age:18}} 
+Map<String, User> userMap = JSON.parseObject(text, new TypeReference<Map<String, User>>() {}); 
+组合类型集合的反序列化 
+
+比如在网络协议中，经常会存在这样的组合: 
+[{/*header*/}, {/*body*/}] 
+
+fastjson对这种结构的反序列化有专门支持。 
+String text = ...; // [{/* header */}, {/* body */}] 
+Type[] types = new Type[] {Header.class, Body.class}; 
+List<Object> list = JSON.parseArray(text, types); 
+Header header = (Header) list.get(0); 
+Body body = (Body) list.get(1); 
+使用@JSONCreator来指定构造函数来创建对象 
+
+如果你的JavaBean没有缺省构造函数，可以使用@JSONCreator来指定构造函数 
+public static class Entity { 
+    private final int    id; 
+    private final String name; 
+
+    @JSONCreator 
+    public Entity(@JSONField(name = "id") int id, @JSONField(name = "name") String name){ 
+        this.id = id; 
+        this.name = name; 
+    } 
+
+    public int getId() { return id; } 
+    public String getName() { return name; } 
+} 
+把JSON文本反序列化为一个原型接口 
+public static interface Bean { 
+    int getId(); 
+
+    void setId(int value); 
+
+    String getName(); 
+
+    void setName(String value); 
+} 
+
+String text = "{\"id\":123, \"name\":\"chris\"}"; 
+Bean bean = JSON.parseObject(text, Bean.class); 
+
+// 按接口调用 
+Assert.assertEquals(123, bean.getId()); 
+Assert.assertEquals("chris", bean.getName()); 
+bean.setId(234); 
+Assert.assertEquals(234, bean.getId());

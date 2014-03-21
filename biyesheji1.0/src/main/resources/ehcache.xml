@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"  updateCheck="false">  
+     <defaultCache maxElementsInMemory="10000"  
+                eternal="false"  
+                timeToIdleSeconds="300"   
+                timeToLiveSeconds="600"  
+                overflowToDisk="false"/>   
+  <diskStore path="java.io.tmpdir"/>
+    <!--  
+        <cache name="zzugxy" overflowToDisk="true" eternal="false"  
+        timeToIdleSeconds="300" timeToLiveSeconds="600" maxElementsInMemory="1000"  
+        maxElementsOnDisk="10" diskPersistent="true" diskExpiryThreadIntervalSeconds="300"  
+        diskSpoolBufferSizeMB="100" memoryStoreEvictionPolicy="LRU" />  
+    -->  
+   
+    <cache name="messageCache" maxElementsInMemory="10" eternal="true" overflowToDisk="false" />  
+    <cache name="messagesCache" maxElementsInMemory="10" eternal="true" overflowToDisk="false" /> 
+    <cache name="allCache" overflowToDisk="true" eternal="false"  
+        timeToIdleSeconds="300" timeToLiveSeconds="400" maxElementsInMemory="1000"  
+        maxElementsOnDisk="10" diskPersistent="false" diskExpiryThreadIntervalSeconds="300"  
+        diskSpoolBufferSizeMB="100" memoryStoreEvictionPolicy="LRU" />
+        
+     <cache name="hourCache" overflowToDisk="true" eternal="false"  
+        timeToIdleSeconds="3600" timeToLiveSeconds="4000" maxElementsInMemory="1000"  
+        maxElementsOnDisk="10" diskPersistent="true" diskExpiryThreadIntervalSeconds="300"  
+        diskSpoolBufferSizeMB="100" memoryStoreEvictionPolicy="LRU" />    
+     
+     <cache name="halfhourcache" overflowToDisk="true" eternal="false"  
+        timeToIdleSeconds="1800" timeToLiveSeconds="2000" maxElementsInMemory="1000"  
+        maxElementsOnDisk="10" diskPersistent="true" diskExpiryThreadIntervalSeconds="300"  
+        diskSpoolBufferSizeMB="100"  />    
+</ehcache>  

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+   <!-- 
+    <bean id="start1" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+     <property name="triggers">
+       <list>
+         <ref bean="cronReportTrigger1"/> 
+       </list>
+     </property>
+   </bean> 
+   
+    <bean id="cronReportTrigger1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="reportJbo1"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0 0/1 * * ? *</value>
+      </property>
+   </bean>
+   
+    <bean id="reportJbo1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="timeQuqrt1"/>
+		</property>
+		<property name="targetMethod">
+			<value>printNow</value>
+		</property>
+	</bean>  
+	
+	<bean id="timeQuqrt1" class="com.zyp.app.TimeQuartz" ></bean>
+	 -->
+</beans>
